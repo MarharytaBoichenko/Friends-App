@@ -30,104 +30,128 @@
     <main>
       <div class="container">
         <div class="wrap">
-          <div class="menu">
-            <form class="form">
-              <div class="search">
-                <input
-                  type="text"
-                  class="search__name"
-                  placeholder="Enter name"
-                  name="search"
-                />
-              </div>
-              <div class="sort">
-                <p class="sort__text">Sort</p>
-                <div class="sort__age">
-                  <p class="sort__text">by age</p>
-                  <div class="sort__thumb">
-                    <label class="sort__label">
+          <aside class="sidebar">
+            <div class="menu">
+              <form class="form">
+                <div class="search">
+                  <input
+                    type="text"
+                    class="search__name"
+                    placeholder="Enter name"
+                    name="search"
+                    data-search="name"
+                  />
+                  <input
+                    type="number"
+                    class="search__age"
+                    placeholder="Enter age"
+                    name="search"
+                    data-search="age"
+                  />
+                </div>
+                <div class="sort">
+                  <p class="sort__text">Sort</p>
+                  <div class="sort__age">
+                    <p class="sort__text">by age</p>
+                    <div class="sort__thumb">
+                      <label class="sort__label">
+                        <input
+                          type="radio"
+                          class="sort__input"
+                          name="sorter"
+                          value="ascending"
+                          data-sort="age"
+                        />
+                        <svg class="sort__icon sort__age--up" width="35" height="35">
+                          <use href="./images/sprite.svg#1-9"></use>
+                        </svg>
+                      </label>
+                      <label class="sort__label">
+                        <input
+                          type="radio"
+                          class="sort__input"
+                          name="sorter"
+                          value="descending"
+                          data-sort="age"
+                        />
+                        <svg class="sort__icon sort__age--down" width="35" height="35">
+                          <use href="./images/sprite.svg#9-1"></use>
+                        </svg>
+                      </label>
+                    </div>
+                  </div>
+                  <div class="sort__name">
+                    <p class="sort__text">by name</p>
+                    <div class="sort__thumb">
+                      <label class="sort__label">
+                        <input
+                          type="radio"
+                          class="sort__input"
+                          name="sorter"
+                          value="descending"
+                          data-sort="name"
+                        />
+                        <svg class="sort__icon sort__name--down" width="35" height="35">
+                          <use href="./images/sprite.svg#z-a"></use>
+                        </svg>
+                      </label>
+                      <label class="sort__label">
+                        <input
+                          type="radio"
+                          class="sort__input"
+                          name="sorter"
+                          value="ascending"
+                          data-sort="name"
+                        />
+                        <svg class="sort__icon sort__name--up" width="35" height="35">
+                          <use href="./images/sprite.svg#a-z"></use>
+                        </svg>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+                <div class="radio filter">
+                  <p class="filter__text">Filter by sex</p>
+                  <div class="filter__thumb">
+                    <label class="filter__label">
                       <input
                         type="radio"
-                        class="sort__input"
-                        name="sorter"
-                        value="ascending"
-                        data-sort="age"
+                        class="filter__input"
+                        name="sex"
+                        value="female"
                       />
-                      <svg class="sort__icon sort__age--up" width="35" height="35">
-                        <use href="./images/sprite.svg#1-9"></use>
+                      <svg
+                        class="filter__icon filter__icon--female"
+                        width="35"
+                        height="35"
+                      >
+                        <use href="./images/sprite.svg#female"></use>
                       </svg>
                     </label>
-                    <label class="sort__label">
-                      <input
-                        type="radio"
-                        class="sort__input"
-                        name="sorter"
-                        value="descending"
-                        data-sort="age"
-                      />
-                      <svg class="sort__icon sort__age--down" width="35" height="35">
-                        <use href="./images/sprite.svg#9-1"></use>
+                    <label class="filter__label">
+                      <input type="radio" class="filter__input" name="sex" value="male" />
+                      <svg class="filter__icon filter__icon--male" width="35" height="35">
+                        <use href="./images/sprite.svg#male"></use>
+                      </svg>
+                    </label>
+                    <label class="filter__label">
+                      <input type="radio" class="filter__input" name="sex" value="all" />
+                      <svg class="filter__icon filter__icon--all" width="35" height="35">
+                        <use href="./images/sprite.svg#gender"></use>
                       </svg>
                     </label>
                   </div>
                 </div>
-                <div class="sort__name">
-                  <p class="sort__text">by name</p>
-                  <div class="sort__thumb">
-                    <label class="sort__label">
-                      <input
-                        type="radio"
-                        class="sort__input"
-                        name="sorter"
-                        value="descending"
-                        data-sort="name"
-                      />
-                      <svg class="sort__icon sort__name--down" width="35" height="35">
-                        <use href="./images/sprite.svg#z-a"></use>
-                      </svg>
-                    </label>
-                    <label class="sort__label">
-                      <input
-                        type="radio"
-                        class="sort__input"
-                        name="sorter"
-                        value="ascending"
-                        data-sort="name"
-                      />
-                      <svg class="sort__icon sort__name--up" width="35" height="35">
-                        <use href="./images/sprite.svg#a-z"></use>
-                      </svg>
-                    </label>
-                  </div>
-                </div>
-              </div>
-              <div class="radio filter">
-                <p class="filter__text">Filter by sex</p>
-                <div class="filter__thumb">
-                  <label class="filter__label">
-                    <input type="radio" class="filter__input" name="sex" value="female" />
-                    <svg class="filter__icon filter__icon--female" width="35" height="35">
-                      <use href="./images/sprite.svg#female"></use>
-                    </svg>
-                  </label>
-                  <label class="filter__label">
-                    <input type="radio" class="filter__input" name="sex" value="male" />
-                    <svg class="filter__icon filter__icon--male" width="35" height="35">
-                      <use href="./images/sprite.svg#male"></use>
-                    </svg>
-                  </label>
-                  <label class="filter__label">
-                    <input type="radio" class="filter__input" name="sex" value="all" />
-                    <svg class="filter__icon filter__icon--all" width="35" height="35">
-                      <use href="./images/sprite.svg#gender"></use>
-                    </svg>
-                  </label>
-                </div>
-              </div>
-              <button type="button" class="reset">Reset all</button>
-            </form>
+                <button type="button" class="reset">Reset all</button>
+              </form>
+            </div>
+          </aside>
+          <div class="page">
+            <ul class="friends list"></ul>
+            <div class="pagination">
+              <div id="pagination-numbers"></div>
+            </div>
           </div>
-          <ul class="friends list"></ul>
         </div>
       </div>
     </main>

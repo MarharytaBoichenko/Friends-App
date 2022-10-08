@@ -1,11 +1,13 @@
 const container = document.querySelector(".container");
 const usersList = document.querySelector(".friends");
 const formAll = document.querySelector(".form");
+const inputName = document.querySelector('input[data-search="name"]');
+const inputAge = document.querySelector('input[data-search="age"]');
 const menuButton = document.querySelector(".header__button");
 const menu = document.querySelector(".menu");
+const pagination = document.getElementById("pagination-numbers");
 const resetButton = document.querySelector(".reset");
 
-/// menu  actions
 const onEscapeClose = ({ code }) => {
   if (code === "Escape") {
     menuClose();
@@ -28,10 +30,16 @@ menuButton.addEventListener("click", () => {
   menu.classList.contains("is-open") ? menuClose() : openMenu();
 });
 
+let usersQuantity = 48;
 let users = [];
 let copyOfUsers = [];
+let page = 1;
+let usersForPage = 6;
+let currentPage = null;
+let prevPage = null;
+
 const fetchUsers = async () => {
-  const BASE_URL = "https://randomuser.me/api/?results=12";
+  const BASE_URL = `https://randomuser.me/api/?results=${usersQuantity}`;
   const response = await fetch(BASE_URL);
   const data = await response.json();
   users = [...data.results];
@@ -39,9 +47,13 @@ const fetchUsers = async () => {
   return users;
 };
 
-const renderUsers = (data) => {
-  console.log("go to render ", data);
-  const markup = data
+const renderUsers = (usersData) => {
+  let usersForRender = usersData.slice((page - 1) * usersForPage, page * usersForPage);
+  if (!usersForRender.length) {
+    usersForRender = usersData;
+  }
+  console.log(usersForRender);
+  const markup = usersForRender
     .map(
       ({
         email,
@@ -129,32 +141,73 @@ const filterByName = (users) => {
   users = users.filter((user) =>
     (user.name.first + user.name.last)
       .toLowerCase()
-      .includes(formAll.search.value.trim().toLowerCase())
+      .includes(inputName.value.trim().toLowerCase())
   );
   return users;
 };
 
-// const filterByAge = (e, users) =>
-//   users.filter((user) => user.dob.age.toString().trim().includes(e.target.value));
+const filterByAge = (users) => {
+  if (inputAge.value.length) {
+    users = users.filter((user) => user.dob.age.toString()[0] === [...inputAge.value][0]);
+  }
+  if ([...inputAge.value][1]) {
+    users = users.filter((el) => el.dob.age === Number(inputAge.value));
+  }
+  if (inputAge.value === "") {
+    users = users;
+  }
+  return users;
+};
 
 formAll.addEventListener("input", (event) => {
-  renderUsers(filterByName(filterByGender(sortUsers(users, event))));
+  renderUsers(filterByName(filterByAge(filterByGender(sortUsers(users, event)))));
+  createNavPagination(
+    filterByName(filterByAge(filterByGender(sortUsers(users, event)))).length
+  );
 });
 
 const showUsers = async () => {
   try {
     const fethchedUsers = await fetchUsers();
     renderUsers(fethchedUsers);
+    createNavPagination(usersQuantity);
   } catch (error) {
     alert("Oops, something  wrong. Please, try again");
     console.log(error);
   }
 };
 
-showUsers();
-
 resetButton.addEventListener("click", () => {
   document.querySelectorAll("input").forEach((input) => (input.checked = false));
-  formAll.search.value = "";
+  console.log(formAll.search.value);
+  inputName.value = "";
+  inputAge.value = "";
   renderUsers(copyOfUsers);
+  createNavPagination(copyOfUsers.length);
 });
+
+const createNavPagination = (quantityOfUsers) => {
+  const buttons = [];
+  for (let i = 0; i < quantityOfUsers / usersForPage; i++) {
+    buttons.push(` <button type="button" class="pagination__number">${i + 1}</button>`);
+    pagination.innerHTML = buttons.join("");
+  }
+};
+
+const changePage = ({ target }) => {
+  if (target.nodeName !== "BUTTON") {
+    return;
+  }
+  page = target.textContent;
+  prevPage = currentPage;
+  currentPage = target;
+  console.log(prevPage);
+  console.log(currentPage);
+  currentPage.classList.add("active");
+  if (prevPage) prevPage.classList.remove("active");
+
+  renderUsers(filterByName(filterByAge(filterByGender(sortUsers(users, { target })))));
+};
+
+pagination.addEventListener("click", changePage);
+showUsers();
